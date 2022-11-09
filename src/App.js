@@ -4,8 +4,12 @@ import MinMax from './minmax';
 export default function(){
 	let [ products, setProducts ] = useState(productsStub());
 
-	let setCnt = (id, cnt) => {
+	const setCnt = (id, cnt) => {
 		setProducts(products.map(pr => pr.id != id ? pr : ({ ...pr, cnt })));
+	}
+
+	const handleDelete = (id) => {
+		setProducts( products.filter( pr => pr.id !== id ))
 	}
 
 	return <div className="tableProduct">
@@ -28,6 +32,7 @@ export default function(){
 							<MinMax max={pr.rest} current={pr.cnt} onChange={cnt => setCnt(pr.id, cnt)} />
 						</td>
 						<td>{ pr.price * pr.cnt }</td>
+						<td> <button onClick= { e => handleDelete( pr.id )} > Delete</button> </td>
 					</tr>
 				) ) }
 				<tr>
