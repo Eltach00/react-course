@@ -9,16 +9,12 @@ function MinMax ({min = 1, max, current, onChange}) {
         onChange(newCurrent)
     }
     
-    const inc = () => {
-        validate(current + 1)
-    }
-    const dec = () =>  {
-        validate(current - 1)
-    }
+    const inc = () => validate(current + 1)
+    const dec = () => validate(current - 1)
 
     function handleChange(event) {
         const num = parseInt(event.target.value)
-        onChange(isNaN(num) ? min : num)
+        validate(isNaN(num) ? min : num)
     }
 
 
