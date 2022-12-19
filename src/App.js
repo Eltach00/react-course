@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import MinMax from './minmax'
+import MinMax from './minmaxLazyState'
 
 export default function () {
   let [products, setProducts] = useState(productsStub())
@@ -38,11 +38,8 @@ export default function () {
               </td>
               <td>{pr.price * pr.cnt}</td>
               <td>
-                {' '}
-                <button onClick={(e) => handleDelete(pr.id)}>
-                  {' '}
-                  Delete
-                </button>{' '}
+                <button onClick={() => handleDelete(pr.id)}>Delete</button>
+                <button onClick={() => setCnt(pr.id, pr.rest)}>All</button>
               </td>
             </tr>
           ))}

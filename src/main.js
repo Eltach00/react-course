@@ -1,7 +1,7 @@
 import React from 'react'
 import { createRoot } from 'react-dom/client'
-import UdemyApp from './udemyApp.js'
+import App from './App.js'
 
 const app = createRoot(document.getElementById('app'))
 
-app.render(<UdemyApp />)
+app.render(<App />)
