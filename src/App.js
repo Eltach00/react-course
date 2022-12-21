@@ -1,8 +1,11 @@
-import React, { useState } from 'react'
-import MinMax from './minmaxLazyState'
+import React, { useRef, useState } from 'react'
+import MinMax from './components/minmax/minmaxLazyState'
+import Modal from 'react-bootstrap/Modal'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 export default function () {
-  let [products, setProducts] = useState(productsStub())
+  const [products, setProducts] = useState(productsStub())
+  const [opened, setOpened] = useState(false)
 
   const setCnt = (id, cnt) => {
     setProducts(products.map((pr) => (pr.id != id ? pr : { ...pr, cnt })))
@@ -14,6 +17,13 @@ export default function () {
 
   return (
     <div className="tableProduct">
+      <button
+        onClick={(e) => {
+          setOpened(true)
+        }}
+      >
+        Open
+      </button>
       <h1>Products list</h1>
       <table>
         <tbody>
@@ -58,6 +68,9 @@ export default function () {
           </tr>
         </tbody>
       </table>
+      <Modal show={opened} onHide={() => setOpened(false)}>
+        <p>Hello</p>
+      </Modal>
     </div>
   )
 }
