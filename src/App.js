@@ -1,76 +1,46 @@
-import React, { useRef, useState } from 'react'
-import MinMax from './components/minmax/minmaxLazyState'
-import Modal from 'react-bootstrap/Modal'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import React, { useState } from 'react'
+import Cart from './Cart'
+import Order from './Order'
+import Result from './Result'
 
 export default function () {
-  const [products, setProducts] = useState(productsStub())
-  const [opened, setOpened] = useState(false)
+  // router
+  const [page, setPage] = useState('Cart')
+  const moveToCart = () => setPage('Cart')
+  const moveToResult = () => setPage('Result')
+  const moveToOrder = () => setPage('Order')
 
+  // products
+  const [products, setProducts] = useState(productsStub())
+  const [total, setTotal] = useState(() => countTotal())
+
+  function countTotal() {
+    return products.reduce((sum, pr) => (sum += pr.price * pr.cnt), 0)
+  }
   const setCnt = (id, cnt) => {
     setProducts(products.map((pr) => (pr.id != id ? pr : { ...pr, cnt })))
+    setTotal(() => countTotal())
   }
 
   const handleDelete = (id) => {
     setProducts(products.filter((pr) => pr.id !== id))
+    setTotal(() => countTotal())
   }
 
   return (
-    <div className="tableProduct">
-      <button
-        onClick={(e) => {
-          setOpened(true)
-        }}
-      >
-        Open
-      </button>
-      <h1>Products list</h1>
-      <table>
-        <tbody>
-          <tr>
-            <th>#</th>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Cnt</th>
-            <th>Total</th>
-          </tr>
-          {products.map((pr, i) => (
-            <tr key={pr.id}>
-              <td>{i + 1}</td>
-              <td>{pr.title}</td>
-              <td>{pr.price}</td>
-              <td>
-                <MinMax
-                  max={pr.rest}
-                  current={pr.cnt}
-                  onChange={(cnt) => setCnt(pr.id, cnt)}
-                />
-              </td>
-              <td>{pr.price * pr.cnt}</td>
-              <td>
-                <button onClick={() => handleDelete(pr.id)}>Delete</button>
-                <button onClick={() => setCnt(pr.id, pr.rest)}>All</button>
-              </td>
-            </tr>
-          ))}
-          <tr>
-            <td>
-              <strong>Total amount</strong>
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-              <strong>
-                {products.reduce((sum, pr) => (sum += pr.price * pr.cnt), 0)}{' '}
-              </strong>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <Modal show={opened} onHide={() => setOpened(false)}>
-        <p>Hello</p>
-      </Modal>
+    <div className="container ">
+      {page === 'Cart' && (
+        <Cart
+          onNext={moveToOrder}
+          products={products}
+          onChange={setCnt}
+          onDelete={handleDelete}
+          countTotal={countTotal}
+          total={total}
+        />
+      )}
+      {page === 'Order' && <Order onPrev={moveToCart} onNext={moveToResult} />}
+      {page === 'Result' && <Result onPrev={moveToOrder} />}
     </div>
   )
 }

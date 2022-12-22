@@ -30,20 +30,20 @@ function MinMax({ min = 0, max, current, onChange }) {
 
   return (
     <div>
-      <button type="button" onClick={dec}>
+      <button className="btn btn-danger" type="button" onClick={dec}>
         -
       </button>
       <input
+        className="w-25"
         type="text"
         onChange={(e) => setVal(e.target.value)}
         value={val}
         onBlur={handleChange}
         onKeyDown={keyPressCheck}
       />
-      <button type="button" onClick={inc}>
+      <button className="btn btn-primary" type="button" onClick={inc}>
         +
       </button>
-      <hr></hr>
     </div>
   )
 }
