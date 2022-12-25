@@ -2,10 +2,9 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.js'
 import StoreContext from './context/store'
-import storeCart from './store/store-cart.js'
-const store = {
-  cart: storeCart,
-}
+import RootStore from './store/rootStore.js'
+
+const store = new RootStore()
 const app = createRoot(document.getElementById('app'))
 
 app.render(

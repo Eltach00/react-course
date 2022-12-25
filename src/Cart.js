@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
 import MinMax from './old-material/minmax/minmaxLazyState'
-import StoreContext from './context/store'
 import { useStore } from './hooks/useStore'
 
 export default observer(function Cart({ onNext }) {

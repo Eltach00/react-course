@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx'
 
-class storeCart {
+export default class storeCart {
   constructor() {
     makeAutoObservable(this)
   }
@@ -59,12 +59,3 @@ function productsStub() {
     },
   ]
 }
-
-export default new storeCart()
-
-/* constructor(){
-	this.products = observable(this.products);
-	this.total = computed(this.total);
-	this.change = action(this.total);
-	this.change = action(this.total);
-} */

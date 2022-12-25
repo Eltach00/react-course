@@ -1,21 +1,25 @@
+import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
+import { useStore } from './hooks/useStore'
 
-export default function ({ fields, onChange, onPrev, onNext }) {
-  let isValid = fields.every((f) => f.valid)
-  let [showModal, setShowModal] = useState(false)
-  let [confirmed, setConfirmed] = useState(false)
-  let openModal = () => setShowModal(true)
-  let closeModal = () => setShowModal(false)
-  let sendForm = () => {
-    setConfirmed(true)
-    closeModal()
-  }
+export default observer(function ({ onPrev, onNext }) {
+  const [order] = useStore('order')
 
-  let onExited = () => {
+  /*modal window */
+  const [showModal, setShowModal] = useState(false)
+  const [confirmed, setConfirmed] = useState(false)
+  const openModal = () => setShowModal(true)
+  const closeModal = () => setShowModal(false)
+  const onExited = () => {
     if (confirmed) {
       onNext()
     }
+  }
+
+  const sendForm = () => {
+    setConfirmed(true)
+    closeModal()
   }
 
   return (
@@ -23,7 +27,7 @@ export default function ({ fields, onChange, onPrev, onNext }) {
       <h1>Input data</h1>
       <hr />
       <form>
-        {fields.map((field) => (
+        {order.fields.map((field) => (
           <div className="form-group" key={field.name}>
             <label>{field.label}</label>
             <input
@@ -33,7 +37,7 @@ export default function ({ fields, onChange, onPrev, onNext }) {
               }`}
               name={field.name}
               value={field.value}
-              onChange={(e) => onChange(field.name, e.target.value.trim())}
+              onChange={(e) => order.update(field.name, e.target.value.trim())}
             />
           </div>
         ))}
@@ -46,7 +50,7 @@ export default function ({ fields, onChange, onPrev, onNext }) {
         type="button"
         className="btn btn-success"
         onClick={openModal}
-        disabled={!isValid}
+        disabled={!order.isValid}
       >
         Send
       </button>
@@ -72,4 +76,4 @@ export default function ({ fields, onChange, onPrev, onNext }) {
       </Modal>
     </div>
   )
-}
+})
