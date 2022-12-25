@@ -1,48 +1,75 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Modal, Button } from 'react-bootstrap'
 
-export default function Order({ onPrev, onNext }) {
+export default function ({ fields, onChange, onPrev, onNext }) {
+  let isValid = fields.every((f) => f.valid)
+  let [showModal, setShowModal] = useState(false)
+  let [confirmed, setConfirmed] = useState(false)
+  let openModal = () => setShowModal(true)
+  let closeModal = () => setShowModal(false)
+  let sendForm = () => {
+    setConfirmed(true)
+    closeModal()
+  }
+
+  let onExited = () => {
+    if (confirmed) {
+      onNext()
+    }
+  }
+
   return (
-    <div className="container ">
-      <h1>Order</h1>
+    <div>
+      <h1>Input data</h1>
       <hr />
-      <form className="lh-lg">
-        <div className="form-group">
-          <label>Email address</label>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            aria-describedby="emailHelp"
-            placeholder="Enter email"
-          />
-          <small id="emailHelp" className="form-text text-muted">
-            We'll never share your email with anyone else.
-          </small>
-        </div>
-        <div className="form-group mt-2">
-          <label>Password</label>
-          <input
-            type="password"
-            className="form-control"
-            id="pass"
-            placeholder="Password"
-          />
-        </div>
-        <div className="form-check mt-2">
-          <input type="checkbox" className="form-check-input" id="check" />
-          <label className="form-check-label">Check me out</label>
-        </div>
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
+      <form>
+        {fields.map((field) => (
+          <div className="form-group" key={field.name}>
+            <label>{field.label}</label>
+            <input
+              type="text"
+              className={`form-control ${
+                field.value.length && !field.valid ? 'border border-danger' : ''
+              }`}
+              name={field.name}
+              value={field.value}
+              onChange={(e) => onChange(field.name, e.target.value.trim())}
+            />
+          </div>
+        ))}
       </form>
       <hr />
-      <button className="btn btn-danger m-1" onClick={onPrev}>
-        Back to Cart
+      <button type="button" className="btn btn-warning" onClick={onPrev}>
+        Back to cart
       </button>
-      <button className="btn btn-primary" onClick={onNext}>
-        Next to Result
+      <button
+        type="button"
+        className="btn btn-success"
+        onClick={openModal}
+        disabled={!isValid}
+      >
+        Send
       </button>
+      <Modal show={showModal} onHide={closeModal} onExited={onExited}>
+        <Modal.Header closeButton>
+          <Modal.Title>Check data</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <p>...</p>
+          <p>...</p>
+          <p>...</p>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeModal}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={sendForm}>
+            Ok, send
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   )
 }
