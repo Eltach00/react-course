@@ -1,8 +1,9 @@
 import { makeAutoObservable } from 'mobx'
 
 export default class storeOrder {
-  constructor() {
+  constructor(rootStore) {
     makeAutoObservable(this)
+    this.rootStore = rootStore
   }
 
   fields = [

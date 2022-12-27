@@ -1,10 +1,12 @@
 import { observer } from 'mobx-react-lite'
 import React, { useState } from 'react'
 import { Modal, Button } from 'react-bootstrap'
-import { useStore } from './hooks/useStore'
+import { Link, useNavigate } from 'react-router-dom'
+import { useStore } from '../hooks/useStore'
 
-export default observer(function ({ onPrev, onNext }) {
+export default observer(function ({}) {
   const [order] = useStore('order')
+  const navigate = useNavigate()
 
   /*modal window */
   const [showModal, setShowModal] = useState(false)
@@ -13,7 +15,7 @@ export default observer(function ({ onPrev, onNext }) {
   const closeModal = () => setShowModal(false)
   const onExited = () => {
     if (confirmed) {
-      onNext()
+      navigate('/result')
     }
   }
 
@@ -43,9 +45,9 @@ export default observer(function ({ onPrev, onNext }) {
         ))}
       </form>
       <hr />
-      <button type="button" className="btn btn-warning" onClick={onPrev}>
+      <Link type="button" className="btn btn-warning" to="/">
         Back to cart
-      </button>
+      </Link>
       <button
         type="button"
         className="btn btn-success"

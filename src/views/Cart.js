@@ -1,9 +1,10 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
-import MinMax from './old-material/minmax/minmaxLazyState'
-import { useStore } from './hooks/useStore'
+import MinMax from '../old-material/minmax/minmaxLazyState'
+import { useStore } from '../hooks/useStore'
+import { Link } from 'react-router-dom'
 
-export default observer(function Cart({ onNext }) {
+export default observer(function Cart({}) {
   const [cart] = useStore('cart')
   return (
     <div className="container">
@@ -61,9 +62,9 @@ export default observer(function Cart({ onNext }) {
         </tbody>
       </table>
       <hr />
-      <button className="btn btn-primary" onClick={onNext}>
+      <Link className="btn btn-primary" to="/order">
         Move to Order
-      </button>
+      </Link>
     </div>
   )
 })

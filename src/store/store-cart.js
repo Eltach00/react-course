@@ -1,8 +1,9 @@
 import { makeAutoObservable } from 'mobx'
 
 export default class storeCart {
-  constructor() {
+  constructor(rootStore) {
     makeAutoObservable(this)
+    this.rootStore = rootStore
   }
 
   products = productsStub()

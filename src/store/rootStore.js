@@ -3,7 +3,7 @@ import storeOrder from './store-order'
 
 export default class RootStore {
   constructor() {
-    this.cart = new storeCart()
-    this.order = new storeOrder()
+    this.cart = new storeCart(this)
+    this.order = new storeOrder(this)
   }
 }
