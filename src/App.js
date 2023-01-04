@@ -6,15 +6,17 @@ import { Link, Route, Routes } from 'react-router-dom'
 import E404 from './views/E404'
 import Home from './views/Home'
 import Product from './views/Product'
+import { useStore } from './hooks/useStore'
 
 export default function () {
+  const [cart] = useStore('cart')
   return (
     <>
       <header>
         <div className="container mt-1">
           <div className="row justify-content-between">
             <div className="col">logo</div>
-            <div className="col col-1">In cart: 0</div>
+            <div className="col col-1">In cart: {cart.total} RUB</div>
           </div>
         </div>
         <hr />

@@ -8,14 +8,16 @@ export default class storeProducts {
 
   products = productsStub()
 
-  get total() {
-    return this.products.reduce(
-      (sum, prod) => (sum += prod.price * prod.cnt),
-      0
-    )
+  getItem = (id) => {
+    return this.products.find((pr) => pr.id == id)
   }
 
-  add = () => {}
+  // get total() {
+  //   return this.products.reduce(
+  //     (sum, prod) => (sum += prod.price * prod.cnt),
+  //     0
+  //   )
+  // }
 
   change = (id, cnt) => {
     let product = this.products.find((pr) => pr.id == id)
