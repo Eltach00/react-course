@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import propTypes from 'prop-types'
 
-function MinMax({ min = 0, max, current, onChange }) {
+function MinMax({ min = 1, max, current, onChange }) {
   const [val, setVal] = useState(current)
   function validate(num) {
     let newCurrent = Math.max(min, Math.min(num, max))

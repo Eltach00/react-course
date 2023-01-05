@@ -5,7 +5,7 @@ import { useStore } from '../hooks/useStore'
 import { Link } from 'react-router-dom'
 
 export default observer(function Cart({}) {
-  const [productStore] = useStore('products')
+  const [cartStore] = useStore('cart')
 
   return (
     <div className="container">
@@ -20,7 +20,7 @@ export default observer(function Cart({}) {
             <th>Cnt</th>
             <th>Total</th>
           </tr>
-          {productStore.products.map((pr, i) => (
+          {cartStore.detailedItem.map((pr, i) => (
             <tr key={pr.id}>
               <td>{i + 1}</td>
               <td>{pr.title}</td>
@@ -29,20 +29,20 @@ export default observer(function Cart({}) {
                 <MinMax
                   max={pr.rest}
                   current={pr.cnt}
-                  onChange={(cnt) => {} /*cart.change(pr.id, cnt)*/}
+                  onChange={(cnt) => cartStore.change(pr.id, cnt)}
                 />
               </td>
               <td>{pr.price * pr.cnt}</td>
               <td>
                 <button
                   className="btn btn-danger btn-sm"
-                  // onClick={() => cart.remove(pr.id)}
+                  onClick={() => cartStore.remove(pr.id)}
                 >
                   Delete
                 </button>
                 <button
                   className="btn btn-primary  btn-sm"
-                  // onClick={() => cart.change(pr.id, pr.rest)}
+                  onClick={() => cartStore.change(pr.id, pr.rest)}
                 >
                   All
                 </button>
@@ -56,11 +56,16 @@ export default observer(function Cart({}) {
             <td></td>
             <td></td>
             <td></td>
-            <td>{/* <strong>{cart.total}</strong> */}</td>
+            <td>
+              <strong>{cartStore.total}</strong>
+            </td>
           </tr>
         </tbody>
       </table>
       <hr />
+      <Link className="btn btn-danger" to="/">
+        Back to Catalog
+      </Link>
       <Link className="btn btn-primary" to="/order">
         Move to Order
       </Link>

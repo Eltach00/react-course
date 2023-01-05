@@ -19,17 +19,17 @@ export default class storeProducts {
   //   )
   // }
 
-  change = (id, cnt) => {
-    let product = this.products.find((pr) => pr.id == id)
+  // change = (id, cnt) => {
+  //   let product = this.products.find((pr) => pr.id == id)
 
-    if (product !== undefined) {
-      product.cnt = Math.max(1, Math.min(product.rest, cnt))
-    }
-  }
+  //   if (product !== undefined) {
+  //     product.cnt = Math.max(1, Math.min(product.rest, cnt))
+  //   }
+  // }
 
-  remove = (id) => {
-    this.products = this.products.filter((pr) => pr.id !== id)
-  }
+  // remove = (id) => {
+  //   this.products = this.products.filter((pr) => pr.id !== id)
+  // }
 }
 
 function productsStub() {

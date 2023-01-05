@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 
 export default observer(function Home({}) {
   const [productsStore] = useStore('products')
+  const [cartStore] = useStore('cart')
   const { products } = productsStore
   return (
     <div className="container">
@@ -15,9 +16,25 @@ export default observer(function Home({}) {
             <div className="col col-4 mt-3" key={item.id}>
               <div className="card">
                 <div className="card-body">
-                  <h1>{item.title}</h1>
-                  <div>{item.price}</div>
+                  <h2>{item.title}</h2>
+                  <div>{item.price} RUB</div>
                   <Link to={`/product/${item.id}`}>Read More</Link>
+                  <hr />
+                  {cartStore.inCart(item.id) ? (
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => cartStore.remove(item.id)}
+                    >
+                      Remove from cart
+                    </button>
+                  ) : (
+                    <button
+                      className="btn btn-primary"
+                      onClick={() => cartStore.add(item.id)}
+                    >
+                      Add to cart
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

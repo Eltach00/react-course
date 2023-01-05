@@ -2,13 +2,17 @@ import { observer } from 'mobx-react-lite'
 import React from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useStore } from '../hooks/useStore'
+import E404 from './E404'
 
 export default observer(function Product({}) {
-  const [cart] = useStore('cart')
-
+  const [cartStore] = useStore('cart')
   const [productStore] = useStore('products')
   const { id } = useParams()
   const product = productStore.getItem(id)
+
+  if (!/^[1-9]+\d*$/.test(id) || !product) {
+    return <E404 />
+  }
 
   return (
     <div className="container mt-1 mb-1">
@@ -19,7 +23,7 @@ export default observer(function Product({}) {
         <h1 className="col mt-1 mb-2">{product.price} RUB</h1>
         <button
           className="col col-2 btn btn-primary"
-          onClick={() => cart.add(product)}
+          onClick={() => cartStore.add(product.id)}
         >
           Add to cart
         </button>

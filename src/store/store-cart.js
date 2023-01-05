@@ -6,33 +6,44 @@ export default class storeCart {
     this.rootStore = rootStore
   }
 
-  items = []
+  items = [
+    {
+      id: 100,
+      cnt: 1,
+    },
+  ]
+
+  get detailedItem() {
+    return this.items.map((pr) => {
+      const details = this.rootStore.products.getItem(pr.id)
+      return { ...details, ...pr }
+    })
+  }
 
   get total() {
-    const { products } = this.rootStore.products
-
-    this.items.forEach((el) =>
-      products.forEach((pr) => {
-        if (el.id === pr.id) {
-          el.price = pr.price
-        }
-      })
-    )
-    return this.items.reduce((acc, el) => (acc += el.price * el.cnt), 0)
+    return this.detailedItem.reduce((acc, pr) => (acc += pr.price * pr.cnt), 0)
   }
 
-  add = (product) => {
-    this.items.push(product)
+  inCart = (id) => {
+    return this.items.some((pr) => pr.id == id)
   }
-  // change = (id, cnt) => {
-  //   let product = this.products.find((pr) => pr.id == id)
 
-  //   if (product !== undefined) {
-  //     product.cnt = Math.max(1, Math.min(product.rest, cnt))
-  //   }
-  // }
+  add = (id) => {
+    if (!this.inCart(id)) {
+      this.items.push({ id, cnt: 1 })
+    }
+  }
 
-  // remove = (id) => {
-  //   this.products = this.products.filter((pr) => pr.id !== id)
-  // }
+  change = (id, cnt) => {
+    let item = this.items.find((item) => item.id == id)
+
+    if (item !== undefined) {
+      let detailts = this.detailedItem.find((item) => item.id == id)
+      item.cnt = Math.max(1, Math.min(detailts.rest, cnt))
+    }
+  }
+
+  remove = (id) => {
+    this.items = this.items.filter((pr) => pr.id !== id)
+  }
 }
