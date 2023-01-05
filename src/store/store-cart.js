@@ -58,7 +58,7 @@ export default class storeCart {
 
     if (item !== undefined) {
       let detailts = this.detailedItem.find((item) => item.id == id)
-      item.cnt = Math.max(1, Math.min(detailts.rest, cnt)
+      item.cnt = Math.max(1, Math.min(detailts.rest, cnt))
     }
   }
 
