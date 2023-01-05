@@ -7,7 +7,8 @@ import RootStore from './store/rootStore.js'
 
 const store = new RootStore()
 const app = createRoot(document.getElementById('app'))
-
+store.products.load()
+store.cart.load()
 app.render(
   <BrowserRouter>
     <StoreContext.Provider value={store}>

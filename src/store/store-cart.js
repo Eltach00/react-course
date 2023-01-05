@@ -1,4 +1,7 @@
-import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable, runInAction } from 'mobx'
+
+//tmp
+const BACKEND = 'http://faceprog.ru/reactcourseapi/cart/'
 
 export default class storeCart {
   constructor(rootStore) {
@@ -6,12 +9,8 @@ export default class storeCart {
     this.rootStore = rootStore
   }
 
-  items = [
-    {
-      id: 100,
-      cnt: 1,
-    },
-  ]
+  items = []
+  #token = null
 
   get detailedItem() {
     return this.items.map((pr) => {
@@ -24,13 +23,33 @@ export default class storeCart {
     return this.detailedItem.reduce((acc, pr) => (acc += pr.price * pr.cnt), 0)
   }
 
+  load = async () => {
+    const currentToken = this.rootStore.storage.getItem('TOKEN')
+    const response = await fetch(`${BACKEND}load.php?token=${currentToken}`)
+    const { cart, token, needUpdate } = await response.json()
+
+    if (needUpdate) {
+      this.rootStore.storage.setItem('TOKEN', token)
+    }
+    runInAction(() => {
+      this.items = cart
+      this.#token = token
+    })
+  }
+
   inCart = (id) => {
     return this.items.some((pr) => pr.id == id)
   }
 
-  add = (id) => {
+  add = async (id) => {
     if (!this.inCart(id)) {
-      this.items.push({ id, cnt: 1 })
+      const response = await fetch(
+        `${BACKEND}add.php?token=${this.#token}&id=${id}`
+      )
+      const res = await response.json()
+      if (res) {
+        this.items.push({ id, cnt: 1 })
+      }
     }
   }
 
@@ -39,11 +58,19 @@ export default class storeCart {
 
     if (item !== undefined) {
       let detailts = this.detailedItem.find((item) => item.id == id)
-      item.cnt = Math.max(1, Math.min(detailts.rest, cnt))
+      item.cnt = Math.max(1, Math.min(detailts.rest, cnt)
     }
   }
 
-  remove = (id) => {
-    this.items = this.items.filter((pr) => pr.id !== id)
+  remove = async (id) => {
+    if (this.inCart(id)) {
+      const response = await fetch(
+        `${BACKEND}remove.php?token=${this.#token}&id=${id}`
+      )
+      const res = await response.json()
+      if (res) {
+        this.items = this.items.filter((pr) => pr.id !== id)
+      }
+    }
   }
 }

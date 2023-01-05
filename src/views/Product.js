@@ -21,12 +21,21 @@ export default observer(function Product({}) {
       <div className="row justify-content-between">
         <h1 className="col mt-1 mb-2">{product.title}</h1>
         <h1 className="col mt-1 mb-2">{product.price} RUB</h1>
-        <button
-          className="col col-2 btn btn-primary"
-          onClick={() => cartStore.add(product.id)}
-        >
-          Add to cart
-        </button>
+        {cartStore.inCart(product.id) ? (
+          <button
+            className="col col-2 btn btn-danger"
+            onClick={() => cartStore.remove(product.id)}
+          >
+            Remove from cart
+          </button>
+        ) : (
+          <button
+            className="col col-2 btn btn-primary"
+            onClick={() => cartStore.add(product.id)}
+          >
+            Add to cart
+          </button>
+        )}
       </div>
       <div>
         <Link className="btn btn-success mt-3" to="/">
