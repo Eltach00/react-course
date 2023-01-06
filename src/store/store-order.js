@@ -1,9 +1,22 @@
 import { makeAutoObservable } from 'mobx'
+import { ThemeProvider } from 'react-bootstrap'
 
 export default class storeOrder {
   constructor(rootStore) {
     makeAutoObservable(this)
     this.rootStore = rootStore
+  }
+
+  get lastCache() {
+    return JSON.parse(this.rootStore.storage.getItem('CartCache'))
+  }
+
+  lastCacheSave = () => {
+    const lastCache = {
+      total: this.rootStore.cart.total,
+      ...this.orderData,
+    }
+    this.rootStore.storage.setItem('CartCache', JSON.stringify(lastCache))
   }
 
   fields = [

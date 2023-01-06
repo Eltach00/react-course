@@ -22,6 +22,7 @@ export default observer(function Home({}) {
                   <hr />
                   {cartStore.inCart(item.id) ? (
                     <button
+                      disabled={cartStore.inProcess.some((id) => id == item.id)}
                       className="btn btn-danger"
                       onClick={() => cartStore.remove(item.id)}
                     >
@@ -29,6 +30,7 @@ export default observer(function Home({}) {
                     </button>
                   ) : (
                     <button
+                      disabled={cartStore.inProcess.some((id) => id == item.id)}
                       className="btn btn-primary"
                       onClick={() => cartStore.add(item.id)}
                     >

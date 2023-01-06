@@ -35,12 +35,14 @@ export default observer(function Cart({}) {
               <td>{pr.price * pr.cnt}</td>
               <td>
                 <button
+                  disabled={cartStore.inProcess.some((item) => item == pr.id)}
                   className="btn btn-danger btn-sm"
                   onClick={() => cartStore.remove(pr.id)}
                 >
                   Delete
                 </button>
                 <button
+                  disabled={cartStore.inProcess.some((item) => item == pr.id)}
                   className="btn btn-primary  btn-sm"
                   onClick={() => cartStore.change(pr.id, pr.rest)}
                 >

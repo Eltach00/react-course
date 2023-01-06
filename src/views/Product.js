@@ -5,8 +5,7 @@ import { useStore } from '../hooks/useStore'
 import E404 from './E404'
 
 export default observer(function Product({}) {
-  const [cartStore] = useStore('cart')
-  const [productStore] = useStore('products')
+  const [cartStore, productStore] = useStore('cart', 'products')
   const { id } = useParams()
   const product = productStore.getItem(id)
 
@@ -23,6 +22,7 @@ export default observer(function Product({}) {
         <h1 className="col mt-1 mb-2">{product.price} RUB</h1>
         {cartStore.inCart(product.id) ? (
           <button
+            disabled={cartStore.inProcess.some((item) => item == product.id)}
             className="col col-2 btn btn-danger"
             onClick={() => cartStore.remove(product.id)}
           >
@@ -30,6 +30,7 @@ export default observer(function Product({}) {
           </button>
         ) : (
           <button
+            disabled={cartStore.inProcess.some((item) => item == product.id)}
             className="col col-2 btn btn-primary"
             onClick={() => cartStore.add(product.id)}
           >

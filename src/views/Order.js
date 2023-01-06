@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useStore } from '../hooks/useStore'
 
 export default observer(function ({}) {
-  const [order] = useStore('order')
+  const [order, cartStore] = useStore('order', 'cart')
   const navigate = useNavigate()
 
   /*modal window */
@@ -21,6 +21,8 @@ export default observer(function ({}) {
 
   const sendForm = () => {
     setConfirmed(true)
+    order.lastCacheSave()
+    cartStore.cleanCart()
     closeModal()
   }
 
