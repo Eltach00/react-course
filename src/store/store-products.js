@@ -13,10 +13,7 @@ export default class storeProducts {
   }
 
   load = async () => {
-    const resp = await fetch(
-      'http://faceprog.ru/reactcourseapi/products/all.php'
-    )
-    const data = await resp.json()
+    const data = await this.rootStore.api.product.all()
     runInAction(() => {
       this.products = data
     })

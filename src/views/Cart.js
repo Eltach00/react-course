@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite'
 import React, { useContext } from 'react'
-import MinMax from '../old-material/minmax/minmaxLazyState'
+import MinMax from '../components/minmaxLazyState'
 import { useStore } from '../hooks/useStore'
 import { Link } from 'react-router-dom'
 

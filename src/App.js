@@ -28,6 +28,9 @@ export default function () {
               <li className="list-group-item">
                 <Link to="/order">Order</Link>
               </li>
+              <li className="list-group-item">
+                <Link to="/result">Result</Link>
+              </li>
             </ul>
           </aside>
           <main className="col col-9">

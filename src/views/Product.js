@@ -22,7 +22,7 @@ export default observer(function Product({}) {
         <h1 className="col mt-1 mb-2">{product.price} RUB</h1>
         {cartStore.inCart(product.id) ? (
           <button
-            disabled={cartStore.inProcess.some((item) => item == product.id)}
+            disabled={cartStore.disableButton(product.id)}
             className="col col-2 btn btn-danger"
             onClick={() => cartStore.remove(product.id)}
           >
@@ -30,7 +30,7 @@ export default observer(function Product({}) {
           </button>
         ) : (
           <button
-            disabled={cartStore.inProcess.some((item) => item == product.id)}
+            disabled={cartStore.disableButton(product.id)}
             className="col col-2 btn btn-primary"
             onClick={() => cartStore.add(product.id)}
           >
